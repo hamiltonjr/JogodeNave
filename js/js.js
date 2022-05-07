@@ -10,12 +10,22 @@ const HERO_TOP = 0;
 const HERO_BOTTOM = 450;
 const SHIFT = 10;
 
-//movimento do inimigo
-const ENEMY_TOP = 0;
-const ENEMY_BOTTOM = 334;
-const ENEMY_LEFT = 0;
-const ENEMY_RIGHT = 694;
-const ENEMY_SPEED = 5;
+//movimento do helicóptero inimigo
+const ENEMY1_TOP = 0;
+const ENEMY1_BOTTOM = 334;
+const ENEMY1_LEFT = 0;
+const ENEMY1_RIGHT = 694;
+const ENEMY1_SPEED = 5;
+
+//movimento do caminhão inimigo
+const ENEMY2_LEFT = 0;
+const ENEMY2_RIGHT = 694;
+const ENEMY2_SPEED = 3;
+
+//movimento do amigo
+const FRIEND_LEFT = 0;
+const FRIEND_RIGHT = 906; 
+const FRIEND_SPEED = 1;
 
 
 function start() {
@@ -30,8 +40,8 @@ function start() {
 
     //principais variáveis do jogo
     var jogo = {};
-    var velocidade = ENEMY_SPEED;
-    var posicaoY = parseInt(Math.random() * ENEMY_BOTTOM + ENEMY_TOP);
+    var velocidade = ENEMY1_SPEED;
+    var posicaoY = parseInt(Math.random() * ENEMY1_BOTTOM + ENEMY1_TOP);
 
     var TECLA = { W: UP, S: DOWN, D: FIRE }
     jogo.pressionou = [];
@@ -54,6 +64,8 @@ function start() {
     function loop() {
         movefundo();
         moveinimigo1();
+        moveinimigo2();
+        moveamigo();
         movejogador();
     }
 
@@ -81,11 +93,11 @@ function start() {
             //Chama função Disparo	
         }
 
-        if (topo <= TOPO) {
+        if (topo <= HERO_TOP) {
             $("#jogador").css("top", topo + SHIFT);
         }
 
-        if (topo >= CHAO) {
+        if (topo >= HERO_BOTTOM) {
             $("#jogador").css("top", topo - SHIFT);
         }
 
@@ -97,11 +109,31 @@ function start() {
         $("#inimigo1").css("left",posicaoX - velocidade);
         $("#inimigo1").css("top",posicaoY);
             
-        if (posicaoX <= ENEMY_LEFT) {
-            posicaoY = parseInt(Math.random() * ENEMY_BOTTOM + ENEMY_TOP);
-            $("#inimigo1").css("left", ENEMY_RIGHT);
+        if (posicaoX <= ENEMY1_LEFT) {
+            posicaoY = parseInt(Math.random() * ENEMY1_BOTTOM + ENEMY1_TOP);
+            $("#inimigo1").css("left", ENEMY1_RIGHT);
             $("#inimigo1").css("top", posicaoY);
         }
     }
     
+
+    function moveinimigo2() {
+        posicaoX = parseInt($("#inimigo2").css("left"));
+	    $("#inimigo2").css("left", posicaoX - ENEMY2_SPEED);
+				
+		if (posicaoX <= ENEMY2_LEFT) {			
+		    $("#inimigo2").css("left", ENEMY2_RIGHT);
+		}
+    }
+
+
+    function moveamigo() {
+        posicaoX = parseInt($("#amigo").css("left"));
+        $("#amigo").css("left",posicaoX + FRIEND_SPEED);
+                    
+        if (posicaoX > FRIEND_RIGHT) {
+            $("#amigo").css("left", FRIEND_LEFT);
+        }
+    }
+
 }
