@@ -31,7 +31,7 @@ body {
 }
 
 #jogador {
-	width: 256px;
+	width: 210px;
 	height: 66px;
 	position: absolute;
 	left: 8px;
@@ -40,7 +40,7 @@ body {
 }
 
 #inimigo1 {
-	width: 256px;
+	width: 210px;
 	height: 66px;
 	position: absolute;
 	left: 689px;
@@ -75,6 +75,26 @@ body {
  	margin-top: 100px;
 	text-align: center;
 	padding: 10px;
+}
+
+#disparo {
+	width: 50px;
+	height: 8px;
+	position: absolute;
+	background-image: url(../imgs/disparo.png);
+}
+
+
+#explosao1 {
+	width: 15px;
+	height: 87px;
+	position: absolute;
+}
+
+#explosao2 {
+	width: 15px;
+	height: 87px;
+	position: absolute;
 }
 
 .anima1 {
@@ -127,7 +147,7 @@ body {
 .anima3 {
 	background-image:url(../imgs/amigo.png);
 	animation:play2 .9s steps(12) infinite;
-	
+
 	-webkit-animation: play2 .9s steps(12) infinite;
 	-moz-animation: play2 .9s steps(12) infinite;
 	-ms-animation: play2 .9s steps(12) infinite;
