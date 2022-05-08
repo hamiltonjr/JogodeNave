@@ -27,6 +27,12 @@ const FRIEND_LEFT = 0;
 const FRIEND_RIGHT = 906; 
 const FRIEND_SPEED = 1;
 
+//movimento do disparo
+const SHOT_SPEED = 15;
+const SHOT_LEFT = 0;
+const SHOT_RIGHT = 900;
+var podeAtirar = true;
+
 
 function start() {
     //some com as instruções iniciais
@@ -67,14 +73,15 @@ function start() {
         moveinimigo2();
         moveamigo();
         movejogador();
-    }
+        colisao();
+    } //fim loop()
 
 
     //Função que movimenta o fundo do jogo
     function movefundo() {
         esquerda = parseInt($("#fundoGame").css("background-position"));
         $("#fundoGame").css("background-position", esquerda - SCENARIO_SHIFT);
-    } // fim da função movefundo()
+    } //fim movefundo()
 
 
     //função que movimento o herói
@@ -90,7 +97,7 @@ function start() {
         }
 
         if (jogo.pressionou[TECLA.D]) {
-            //Chama função Disparo	
+            disparo();
         }
 
         if (topo <= HERO_TOP) {
@@ -101,7 +108,8 @@ function start() {
             $("#jogador").css("top", topo - SHIFT);
         }
 
-    }
+    } //fim movejogador()
+
 
     //função que movimenta o helicóptero inimigo
     function moveinimigo1() {
@@ -114,7 +122,7 @@ function start() {
             $("#inimigo1").css("left", ENEMY1_RIGHT);
             $("#inimigo1").css("top", posicaoY);
         }
-    }
+    } //fim moveinimigo1()
     
 
     function moveinimigo2() {
@@ -124,7 +132,7 @@ function start() {
 		if (posicaoX <= ENEMY2_LEFT) {			
 		    $("#inimigo2").css("left", ENEMY2_RIGHT);
 		}
-    }
+    } //fim moveinimigo2()
 
 
     function moveamigo() {
@@ -134,6 +142,75 @@ function start() {
         if (posicaoX > FRIEND_RIGHT) {
             $("#amigo").css("left", FRIEND_LEFT);
         }
-    }
+    } //fim moveamigo()
 
-}
+} //fim start()
+
+
+function disparo() {
+	if (podeAtirar==true) {
+        podeAtirar=false;
+        
+        topo = parseInt($("#jogador").css("top"))
+        posicaoX= parseInt($("#jogador").css("left"))
+        tiroX = posicaoX + 190;
+        topoTiro = topo + 37;
+
+        //cria div disparo
+        $("#fundoGame").append("<div id='disparo'></div");
+        $("#disparo").css("top", topoTiro);
+        $("#disparo").css("left", tiroX);
+        
+        var tempoDisparo = window.setInterval(executaDisparo, 30);	
+	}
+ 
+    function executaDisparo() {
+        posicaoX = parseInt($("#disparo").css("left"));
+        $("#disparo").css("left",posicaoX+15); 
+
+        if (posicaoX>900) {
+            window.clearInterval(tempoDisparo);
+            tempoDisparo=null;
+            $("#disparo").remove();
+            podeAtirar=true;
+        }
+    } //fim executaDisparo()
+
+} //fim disparo()
+
+
+function colisao() {
+    var colisao1 = ($("#jogador").collision($("#inimigo1")));
+
+    // jogador com o inimigo1    
+    if (colisao1.length > 0) {
+        inimigo1X = parseInt($("#inimigo1").css("left"));
+        inimigo1Y = parseInt($("#inimigo1").css("top"));
+        explosao1(inimigo1X, inimigo1Y);
+
+        posicaoY = parseInt(Math.random() * 334);
+        $("#inimigo1").css("left",694);
+        $("#inimigo1").css("top",posicaoY);
+    }
+    
+} //fim colisao()
+
+//explosão 1
+function explosao1(inimigo1X, inimigo1Y) {
+	$("#fundoGame").append("<div id='explosao1'></div");
+	$("#explosao1").css("background-image", "url(imgs/explosao.png)");
+	var div = $("#explosao1");
+	div.css("top", inimigo1Y);
+	div.css("left", inimigo1X);
+	div.animate({width: 200, opacity: 0}, "slow");
+	
+	var tempoExplosao=window.setInterval(removeExplosao, 1200);
+	
+    function removeExplosao() {
+        div.remove();
+        window.clearInterval(tempoExplosao);
+        tempoExplosao = null;
+    }
+		
+} //fim explosao1()
+    
