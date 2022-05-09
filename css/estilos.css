@@ -116,6 +116,14 @@ body {
 	top: 590px;
 }
 
+#energia {
+	width: 140px;
+	height: 38px;
+	position: absolute;
+	left: 750px;
+	top: 7px;	
+}
+
 /* animações */
 .anima1 {
 	background-image: url(../imgs/helicoptero.png);
@@ -134,22 +142,22 @@ body {
 
 
 @-webkit-keyframes play {
-   from { background-position:0px; }
+   from { background-position: 0px; }
      to { background-position: -512px; }
 }
 
 @-moz-keyframes play {
-   from { background-position:0px; }
+   from { background-position: 0px; }
      to { background-position: -512px; }
 }
 
 @-ms-keyframes play {
-   from { background-position:0px; }
+   from { background-position: 0px; }
      to { background-position: -512px; }
 }
 
 @-o-keyframes play {
-   from { background-position:0px; }
+   from { background-position: 0px; }
      to { background-position: -512px; }
 }
 

@@ -3,9 +3,6 @@ const SCENARIO_TIME = 30; // in milisseconds
 const SCENARIO_SHIFT = 1;
 
 //movimento do herói
-const UP = 87;
-const DOWN = 83;
-const FIRE = 68;
 const HERO_TOP = 0;
 const HERO_BOTTOM = 450;
 const SHIFT = 10;
@@ -44,14 +41,24 @@ function start() {
     $("#fundoGame").append("<div id='inimigo2'></div>");
     $("#fundoGame").append("<div id='amigo' class='anima3'></div>");
     $("#fundoGame").append("<div id='placar'></div>");
+    $("#fundoGame").append("<div id='energia'></div>");
 
     //principais variáveis do jogo
     var jogo = {};
     var velocidade = ENEMY1_SPEED;
     var posicaoY = parseInt(Math.random() * ENEMY1_BOTTOM + ENEMY1_TOP);
 
-    var TECLA = { W: UP, S: DOWN, D: FIRE }
+    //teclas
+    var TECLA = {
+        FIRE: 32,
+        ARROW_LEFT: 37,
+        ARROW_UP: 38,
+        ARROW_RIGHT: 39,
+        ARROW_DOWN: 40,
+    };
+
     jogo.pressionou = [];
+    var energiaAtual = 3;
     var fimdejogo = false;
     var pontos = 0;
     var salvos = 0;
@@ -80,6 +87,7 @@ function start() {
         movejogador();
         colisao();
         placar();
+        energia();
     } //fim loop()
 
 
@@ -92,17 +100,17 @@ function start() {
 
     //função que movimento o herói
     function movejogador() {
-        if (jogo.pressionou[TECLA.W]) {
+        if (jogo.pressionou[TECLA.ARROW_UP]) {
             var topo = parseInt($("#jogador").css("top"));
             $("#jogador").css("top", topo - SHIFT);
         }
 
-        if (jogo.pressionou[TECLA.S]) {
+        if (jogo.pressionou[TECLA.ARROW_DOWN]) {
             var topo = parseInt($("#jogador").css("top"));
             $("#jogador").css("top", topo + SHIFT);
         }
 
-        if (jogo.pressionou[TECLA.D]) {
+        if (jogo.pressionou[TECLA.FIRE]) {
             disparo();
         }
 
@@ -202,6 +210,8 @@ function start() {
             posicaoY = parseInt(Math.random() * 334);
             $("#inimigo1").css("left", 694);
             $("#inimigo1").css("top", posicaoY);
+
+            energiaAtual--;
         }
 
         //jogador com o inimigo2 
@@ -212,6 +222,8 @@ function start() {
 
             $("#inimigo2").remove();
             reposicionaInimigo2();
+
+            energiaAtual--;
         }
 
         //disparo com o inimigo1
@@ -227,6 +239,7 @@ function start() {
             $("#inimigo1").css("top", posicaoY);
 
             pontos = pontos + 100;
+            velocidade = velocidade + 0.1;
         }
 
         //disparo com o inimigo2	
@@ -352,4 +365,21 @@ function start() {
             "</h2>"
         );
     } //fim da função placar()
+
+    //Barra de energia
+
+    function energia() {
+        if (energiaAtual == 3) {
+            $("#energia").css("background-image", "url(imgs/energia3.png)");
+        } else if (energiaAtual == 2) {
+            $("#energia").css("background-image", "url(imgs/energia2.png)");
+        } else if (energiaAtual == 1) {
+            $("#energia").css("background-image", "url(imgs/energia1.png)");
+        } else if (energiaAtual == 0) {
+            $("#energia").css("background-image", "url(imgs/energia0.png)");
+
+            //Game Over
+        }
+    } // Fim da função energia()
+
 } // fim start()
