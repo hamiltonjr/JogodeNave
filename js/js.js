@@ -289,7 +289,7 @@ function start() {
     } //fim explosao2()
 
 
-    //Explosão3
+    //explosão3
     function explosao3(amigoX, amigoY) {
         $("#fundoGame").append("<div id='explosao3' class='anima4'></div");
         $("#explosao3").css("top", amigoY);
